@@ -5,10 +5,8 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(),],
-  server: {
-    port: parseInt(process.env.VITE_PORT) || 5173
-  },
+  plugins: [react(), tailwindcss()],
+  
   define: {
     'process.env.NODE_ENV': JSON.stringify('production')
   }
