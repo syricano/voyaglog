@@ -1,8 +1,7 @@
-import cors from 'cors';
 
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
-  : [];
+  : ['http://localhost:5173'];
 console.log('Allowed Origins:', allowedOrigins);
 const corsOptions = {
   origin: function (origin, callback) {
