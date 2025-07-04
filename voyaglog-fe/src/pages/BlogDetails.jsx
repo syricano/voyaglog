@@ -16,10 +16,10 @@ const BlogDetails = () => {
     // Replace with your actual backend URL
     const fetchPost = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/posts/${id}`, 
-          
-          {credentials: 'include'},
-        );
+        const res = await fetch(`${API_BASE_URL}/api/posts/${id}`, {
+          method: "GET", // optional but good practice
+          credentials: 'include',
+        });
         if (!res.ok) {
           throw new Error(`Error: ${res.status}`);
         }

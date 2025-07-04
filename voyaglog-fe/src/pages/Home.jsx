@@ -15,9 +15,10 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/posts`,
-          {credentials: 'include'}
-        )
+        const response = await fetch(`${API_BASE_URL}/api/posts`, {
+          method: 'GET', // optional but best practice
+          credentials: 'include',
+        });
         if (!response.ok) throw new Error('Failed to fetch posts')
 
         const data = await response.json()
@@ -68,9 +69,9 @@ const Home = () => {
 
         <div className={voyagStyle.blogGrid}>
           {posts.map((post) => (
-            <div key={post.id} className={voyagStyle.blogCardContainer}>
+            <div key={post.id || index} className={voyagStyle.blogCardContainer}>
               <div className={voyagStyle.cardBody}>
-                <h3 className={voyagStyle.cardTitle}>{post.title}</h3>
+                <h3 className={voyagStyle.cardTitle}>{post.title || 'Blog image'}</h3>
                 <p className={voyagStyle.cardContent}>
                   {post.content.length > 100
                     ? post.content.slice(0, 100) + '...'

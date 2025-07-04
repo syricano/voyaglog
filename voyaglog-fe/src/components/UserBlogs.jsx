@@ -28,11 +28,13 @@ const UserBlogs = ({
       try {
         setLoading(true);
         const res = await fetch(`${API_BASE_URL}/api/posts/my-posts`, {
-          headers: { Authorization: `Bearer ${token}` },
-          
-        },
-          {credentials: 'include'});
-        if (!res.ok) throw new Error("Failed to fetch blogs");
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: 'include',
+        });
+        if (!res.ok) throw new Error(data.message || "Failed to fetch blogs");
         const data = await res.json();
         setBlogs(data || []);
         setBlogsError("");
