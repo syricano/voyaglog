@@ -1,8 +1,10 @@
 import cors from 'cors';
 
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? [process.env.CORS_ORIGIN]  // Single origin from Render env var, e.g. https://voyaglog-fe.onrender.com
-  :  process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : ['http://localhost:5173'];
+  ? [process.env.CORS_ORIGIN.trim()]
+  : process.env.CLIENT_URL
+    ? process.env.CLIENT_URL.split(',').map(origin => origin.trim())
+    : ['http://localhost:5173'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) {

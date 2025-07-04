@@ -40,34 +40,6 @@ app.use(cors(corsOptions)); // Use the imported corsOptions here
 // For uploads static serving
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Root route
-app.get('/', (req, res) => {
-  res.status(200).json({ 
-    message: "Welcome to the Travel Blog API",
-    routes: {
-      users: {
-        list: "GET /api/users",
-        getUserById: "GET /api/users/:id",
-        createUser: "POST /api/users",
-      },
-      posts: {
-        list: "GET /api/posts",
-        getPostById: "GET /api/posts/:id",
-        createPost: "POST /api/posts",
-      },
-      auth: {
-        login: "POST /api/login",
-        register: "POST /api/register",
-      }
-    }
-   });
-});
-
-// Routes
-app.use('/api/users', userRouter);
-app.use('/api/posts', postRouter);
-app.use('/api/auth', authRoutes);
-
 if (process.env.NODE_ENV === 'production') {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
@@ -77,6 +49,19 @@ if (process.env.NODE_ENV === 'production') {
 
   app.get('*splat', (req, res) => res.sendFile(path.join(buildPath, 'index.html')));
 }
+// Root route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: "Welcome to the Travel Blog API"
+  });
+});
+
+// Routes
+app.use('/api/users', userRouter);
+app.use('/api/posts', postRouter);
+app.use('/api/auth', authRoutes);
+
+
 
 // Error handling middleware
 app.use(errorHandler);
