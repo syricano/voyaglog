@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router'
 import voyagStyle from '../style/voyagStyle'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.API_BASE_URL || 'http://localhost:8080';
 
 
 const Login = () => {
