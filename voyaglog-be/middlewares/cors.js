@@ -1,5 +1,5 @@
 const allowedOrigins = [
-  'https://voyaglog-fe.onrender.com',
+  'https://voyaglog.onrender.com',
   'http://localhost:5173'
 ];
 const corsOptions = {
