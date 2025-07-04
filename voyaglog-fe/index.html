@@ -1,12 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Voyaglog Blog</title>
+
+    <title>Voyaglog Blog | Explore the World Through Stories</title>
+
+    <!-- ✅ SEO Meta Tags -->
+    <meta name="description" content="Voyaglog is your personal travel diary. Share your journey, explore new places, and connect through travel stories." />
+    <meta name="keywords" content="travel blog, voyaglog, travel stories, adventure, personal travel journal, blog your trip" />
+    <meta name="author" content="Voyaglog Team" />
+
+    <!-- ✅ Open Graph for social sharing -->
+    <meta property="og:title" content="Voyaglog Blog" />
+    <meta property="og:description" content="Explore and share unforgettable journeys on Voyaglog." />
+    <meta property="og:image" content="https://voyaglog.onrender.com/preview.jpg" />
+    <meta property="og:url" content="https://voyaglog.onrender.com" />
+    <meta property="og:type" content="website" />
+
+    <!-- ✅ Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Voyaglog Blog" />
+    <meta name="twitter:description" content="Explore and share unforgettable journeys on Voyaglog." />
+    <meta name="twitter:image" content="https://voyaglog.onrender.com/preview.jpg" />
+
+    <!-- ✅ Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- ✅ ARIA & Accessibility -->
+    <meta name="theme-color" content="#ffffff" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" role="main" aria-label="Voyaglog Main Content Area"></div>
+
+    <!-- For users with reduced motion preferences -->
+    <script>
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.body.setAttribute("aria-hidden", "false");
+      }
+    </script>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
