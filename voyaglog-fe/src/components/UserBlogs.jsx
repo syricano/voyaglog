@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import voyagStyle from "../style/voyagStyle";
-const API_BASE_URL = import.meta.env.API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const UserBlogs = ({
   token,
@@ -31,7 +31,7 @@ const UserBlogs = ({
           headers: { Authorization: `Bearer ${token}` },
           
         },
-          {Credentials: 'include'});
+          {credentials: 'include'});
         if (!res.ok) throw new Error("Failed to fetch blogs");
         const data = await res.json();
         setBlogs(data || []);

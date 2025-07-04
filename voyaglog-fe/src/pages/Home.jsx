@@ -5,7 +5,7 @@ import HeroFlip from '../components/HeroFlip'
 import front from '../assets/front.jpg'
 import back from '../assets/back.jpg'
 
-const API_BASE_URL = import.meta.env.API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const Home = () => {
   const [posts, setPosts] = useState([])
@@ -16,7 +16,7 @@ const Home = () => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/api/posts`,
-          {Credentials: 'include'}
+          {credentials: 'include'}
         )
         if (!response.ok) throw new Error('Failed to fetch posts')
 

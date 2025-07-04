@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router'
 import voyagStyle from '../style/voyagStyle'
 
-const API_BASE_URL = import.meta.env.API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 
 const BlogDetails = () => {
@@ -18,7 +18,7 @@ const BlogDetails = () => {
       try {
         const res = await fetch(`${API_BASE_URL}/api/posts/${id}`, 
           
-          {Credentials: 'include'},
+          {credentials: 'include'},
         );
         if (!res.ok) {
           throw new Error(`Error: ${res.status}`);

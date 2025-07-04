@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import voyagStyle from "../style/voyagStyle";
 import HandleUsers from "../components/HandleUsers";
 
-const API_BASE_URL = import.meta.env.API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 
 const UserProfile = () => {
