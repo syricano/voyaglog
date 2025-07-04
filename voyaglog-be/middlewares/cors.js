@@ -1,9 +1,12 @@
 import cors from 'cors';
 
-const allowedOrigins = [
-  'https://voyaglog.onrender.com', // frontend
-  'http://localhost:5173',          // dev
-];
+const allowedOrigins = (process.env.NODE_ENV === 'production'
+  ? process.env.CORS_ORIGIN
+  : process.env.CLIENT_URL
+) ? (process.env.NODE_ENV === 'production' ? process.env.CORS_ORIGIN : process.env.CLIENT_URL)
+  .split(',')
+  .map(origin => origin.trim())
+  : ['http://localhost:5173'];
 
 console.log('Allowed Origins:', allowedOrigins);
 const corsOptions = {
