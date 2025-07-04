@@ -53,7 +53,7 @@ const voyagStyle = {
   aboutWrapper:
     "max-w-4xl mx-auto p-10 mt-10 bg-base-200 rounded shadow-md flex-1/2 prose prose-indigo",
   aboutTitle:
-    "text-5xl font-extrabold mb-8 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 bg-clip-text text-transparent drop-shadow-md animate-bounceOnce select-none",
+    "text-5xl font-extrabold mb-8 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 bg-clip-text text-transparent drop-shadow-md p-4 animate-bounceOnce select-none",
   aboutParagraph:
     "mb-6 text-lg leading-relaxed hover:text-primary transition-colors duration-300 cursor-pointer",
 
