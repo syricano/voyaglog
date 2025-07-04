@@ -35,6 +35,7 @@ app.use(
 // Middleware
 app.use(express.json());
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 
 // For uploads static serving
 app.use('/uploads', cors(corsOptions), express.static(path.join(__dirname, 'uploads')));
