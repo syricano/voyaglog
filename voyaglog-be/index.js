@@ -32,10 +32,10 @@ app.use(
   })
 );
 
+app.use(cors(corsOptions)); // Use the imported corsOptions here
 
 // Middleware
 app.use(express.json());
-app.use(cors(corsOptions)); // Use the imported corsOptions here
 
 // For uploads static serving
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
