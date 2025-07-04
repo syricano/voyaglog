@@ -16,6 +16,7 @@ const corsOptions = {
       return callback(new Error(`CORS policy: Origin ${origin} not allowed`));
     }
   },
+  
   credentials: true,
 };
 

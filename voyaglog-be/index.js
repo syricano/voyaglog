@@ -16,21 +16,6 @@ import cookieParser from 'cookie-parser';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-console.log('--- ENVIRONMENT INFO ---');
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('PORT:', process.env.PORT);
-console.log('CORS_ORIGIN:', process.env.CORS_ORIGIN);
-console.log('VITE_API_BASE_URL:', process.env.VITE_API_BASE_URL);
-
-const allowedOrigins = process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
-  : ['http://localhost:5173'];
-
-console.log('Allowed Origins:', allowedOrigins);
-console.log('-----------------------');
-
-
 // Create an instance of express
 const app = express();
 app.use(cookieParser());
@@ -41,7 +26,7 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      imgSrc: ["'self'", 'http://localhost:8080', 'data:'],
+      imgSrc: ["'self'", `'http://localhost:8080'`, 'data:'],
       // other directives as needed
     },
   })
