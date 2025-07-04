@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import corsOptions from './middlewares/cors.js';
 import errorHandler from './middlewares/errorHandler.js';
 import postRouter from './routes/postRouter.js';
 import userRouter from './routes/userRouter.js';
@@ -10,7 +11,6 @@ import { fileURLToPath } from 'url';
 import authRoutes from './routes/authRouter.js';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import corsOptions from './middlewares/cors.js';
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -20,6 +20,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(cookieParser());
 const PORT = process.env.PORT || 3000;
+
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -34,11 +35,10 @@ app.use(
 
 // Middleware
 app.use(express.json());
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); 
+app.use(cors(corsOptions)); // Use the imported corsOptions here
 
 // For uploads static serving
-app.use('/uploads', cors(corsOptions), express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Root route
 app.get('/', (req, res) => {

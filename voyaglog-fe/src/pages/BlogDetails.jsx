@@ -13,7 +13,7 @@ const BlogDetails = () => {
     // Replace with your actual backend URL
     const fetchPost = async () => {
       try {
-        const res = await fetch(`API_BASE_URL/api/posts/${id}`);
+        const res = await fetch(`http://localhost:8080/api/posts/${id}`);
         if (!res.ok) {
           throw new Error(`Error: ${res.status}`);
         }
@@ -44,7 +44,7 @@ const BlogDetails = () => {
 
       {blog.image && (
         <img
-          src={`${API_BASE_URL}/uploads/${blog.image}`}
+          src={`http://localhost:8080/uploads/${blog.image}`}
           alt={blog.title}
           className={voyagStyle.featuredImage}
         />

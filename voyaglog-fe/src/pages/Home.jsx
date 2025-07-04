@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import HeroFlip from '../components/HeroFlip'
 import front from '../assets/front.jpg'
 import back from '../assets/back.jpg'
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 const Home = () => {
@@ -15,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/posts`)
+        const response = await fetch(`http://localhost:8080/api/posts`)
         if (!response.ok) throw new Error('Failed to fetch posts')
 
         const data = await response.json()
@@ -76,7 +75,7 @@ const Home = () => {
                 </p>
                 {post.image && (
                   <img
-                    src={`${API_BASE_URL}/uploads/${post.image}`}
+                    src={`http://localhost:8080/uploads/${post.image}`}
                     alt={post.title}
                     className={voyagStyle.featuredImage} // Add this class or your own styling
                   />

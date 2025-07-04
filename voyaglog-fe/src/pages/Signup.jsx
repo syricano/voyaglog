@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import voyagStyle from '../style/voyagStyle'
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -36,7 +35,7 @@ const Signup = () => {
     // TODO: Call your signup API here
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+      const response = await fetch(`http://localhost:8080/api/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

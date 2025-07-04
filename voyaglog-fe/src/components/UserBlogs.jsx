@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import voyagStyle from "../style/voyagStyle";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 
 const UserBlogs = ({
   token,
@@ -274,7 +272,7 @@ const UserBlogs = ({
                   </p>
                   {blog.image && (
                     <img
-                      src={`${API_BASE_URL}/uploads/${blog.image}`}
+                      src={`http://localhost:8080/uploads/${blog.image}`}
                       alt="Blog"
                       className={`${voyagStyle.featuredImage} mt-4`}
                     />
