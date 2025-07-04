@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import voyagStyle from "../style/voyagStyle";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const UserBlogs = ({
   token,
@@ -26,7 +28,7 @@ const UserBlogs = ({
     const fetchBlogs = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:8080/api/posts/my-posts", {
+        const res = await fetch(`${API_BASE_URL}/api/posts/my-posts`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Failed to fetch blogs");
@@ -72,7 +74,7 @@ const UserBlogs = ({
       formData.append("content", newBlog.content);
       if (newBlog.image) formData.append("image", newBlog.image);
 
-      const res = await fetch("http://localhost:8080/api/posts", {
+      const res = await fetch(`${API_BASE_URL}/api/posts`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -127,7 +129,7 @@ const UserBlogs = ({
     }
 
     try {
-      const res = await fetch(`http://localhost:8080/api/posts/${editingBlog.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/posts/${editingBlog.id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -152,7 +154,7 @@ const UserBlogs = ({
   const deleteBlog = async (id) => {
     if (!confirm("Are you sure you want to delete this blog?")) return;
     try {
-      const res = await fetch(`http://localhost:8080/api/posts/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/posts/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -272,7 +274,7 @@ const UserBlogs = ({
                   </p>
                   {blog.image && (
                     <img
-                      src={`http://localhost:8080/uploads/${blog.image}`}
+                      src={`${API_BASE_URL}/uploads/${blog.image}`}
                       alt="Blog"
                       className={`${voyagStyle.featuredImage} mt-4`}
                     />

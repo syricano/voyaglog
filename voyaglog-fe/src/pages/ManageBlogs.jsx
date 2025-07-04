@@ -1,6 +1,7 @@
 import { useState } from "react";
 import voyagStyle from "../style/voyagStyle";
 import UserBlogs from "../components/UserBlogs";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ManageBlogs = () => {
   const token = localStorage.getItem("token");

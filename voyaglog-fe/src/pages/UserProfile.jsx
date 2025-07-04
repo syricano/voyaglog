@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import voyagStyle from "../style/voyagStyle";
 import HandleUsers from "../components/HandleUsers";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const UserProfile = () => {
   const token = localStorage.getItem("token");
@@ -20,7 +21,7 @@ const UserProfile = () => {
 
     const fetchUserData = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/auth/profile", {
+        const res = await fetch(`${API_BASE_URL}/api/auth/profile`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

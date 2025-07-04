@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import voyagStyle from '../style/voyagStyle'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const HandleUsers = ({ blogs, setBlogs, blogsError, setBlogsError, onSuccess }) => {
   const navigate = useNavigate()
@@ -24,7 +26,7 @@ const HandleUsers = ({ blogs, setBlogs, blogsError, setBlogsError, onSuccess }) 
 
     const fetchUserData = async () => {
       try {
-        const res = await fetch('http://localhost:8080/api/auth/profile', {
+        const res = await fetch(`${API_BASE_URL}/api/auth/profile`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +56,7 @@ const HandleUsers = ({ blogs, setBlogs, blogsError, setBlogsError, onSuccess }) 
 
     const fetchUserBlogs = async () => {
       try {
-        const res = await fetch('http://localhost:8080/api/posts/my-posts', {
+        const res = await fetch(`${API_BASE_URL}/api/posts/my-posts`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         const data = await res.json()
@@ -85,7 +87,7 @@ const HandleUsers = ({ blogs, setBlogs, blogsError, setBlogsError, onSuccess }) 
       }
 
       try {
-        const res = await fetch(`http://localhost:8080/api/users/${user.id}`, {
+        const res = await fetch(`${API_BASE_URL}/api/users/${user.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
