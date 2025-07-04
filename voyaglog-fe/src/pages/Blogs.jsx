@@ -2,6 +2,9 @@ import { Link } from 'react-router'
 import voyagStyle from '../style/voyagStyle'
 import { useEffect, useState } from 'react'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
+
 const Blogs = () => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -10,7 +13,10 @@ const Blogs = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/posts')
+        const response = await fetch(`${API_BASE_URL}/api/posts`
+          ,
+          {Credentials: 'include'}
+        )
         if (!response.ok) {
           throw new Error('Failed to fetch posts')
         }
@@ -53,7 +59,7 @@ const Blogs = () => {
               </p>
               {post.image && (
                 <img
-                  src={`http://localhost:8080/uploads/${post.image}`}
+                  src={`${API_BASE_URL}/uploads/${post.image}`}
                   alt={post.title}
                   className={voyagStyle.featuredImage} // Add this class or your own styling
                 />

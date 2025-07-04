@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import voyagStyle from '../style/voyagStyle'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
+
 const HandleUsers = ({ blogs, setBlogs, blogsError, setBlogsError, onSuccess }) => {
   const navigate = useNavigate()
   const token = localStorage.getItem('token')
@@ -85,7 +88,7 @@ const HandleUsers = ({ blogs, setBlogs, blogsError, setBlogsError, onSuccess }) 
       }
 
       try {
-        const res = await fetch(`http://localhost:8080/api/users/${user.id}`, {
+        const res = await fetch(`${API_BASE_URL}/api/users/${user.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

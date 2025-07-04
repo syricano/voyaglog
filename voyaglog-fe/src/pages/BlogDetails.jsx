@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router'
 import voyagStyle from '../style/voyagStyle'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
+
 const BlogDetails = () => {
   const { id } = useParams()
   const [blog, setBlog] = useState(null);
@@ -13,7 +16,10 @@ const BlogDetails = () => {
     // Replace with your actual backend URL
     const fetchPost = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/posts/${id}`);
+        const res = await fetch(`${API_BASE_URL}/api/posts/${id}`, 
+          
+          {Credentials: 'include'},
+        );
         if (!res.ok) {
           throw new Error(`Error: ${res.status}`);
         }
@@ -44,7 +50,7 @@ const BlogDetails = () => {
 
       {blog.image && (
         <img
-          src={`http://localhost:8080/uploads/${blog.image}`}
+          src={`${API_BASE_URL}/uploads/${blog.image}`}
           alt={blog.title}
           className={voyagStyle.featuredImage}
         />

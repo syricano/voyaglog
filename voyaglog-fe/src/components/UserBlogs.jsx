@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import voyagStyle from "../style/voyagStyle";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const UserBlogs = ({
   token,
@@ -28,7 +29,9 @@ const UserBlogs = ({
         setLoading(true);
         const res = await fetch(`${API_BASE_URL}/api/posts/my-posts`, {
           headers: { Authorization: `Bearer ${token}` },
-        });
+          
+        },
+          {Credentials: 'include'});
         if (!res.ok) throw new Error("Failed to fetch blogs");
         const data = await res.json();
         setBlogs(data || []);
@@ -272,7 +275,7 @@ const UserBlogs = ({
                   </p>
                   {blog.image && (
                     <img
-                      src={`http://localhost:8080/uploads/${blog.image}`}
+                      src={`${API_BASE_URL}/uploads/${blog.image}`}
                       alt="Blog"
                       className={`${voyagStyle.featuredImage} mt-4`}
                     />
