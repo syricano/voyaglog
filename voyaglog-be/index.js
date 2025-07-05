@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import corsOptions from './middlewares/cors.js';
+//import corsOptions from './middlewares/cors.js';
 import errorHandler from './middlewares/errorHandler.js';
 import postRouter from './routes/postRouter.js';
 import userRouter from './routes/userRouter.js';
@@ -32,7 +32,7 @@ app.use(
   })
 );
 
-app.use(cors(corsOptions)); // Use the imported corsOptions here
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));; // Use the imported corsOptions here
 
 // Middleware
 app.use(express.json());
