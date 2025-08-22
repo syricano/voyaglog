@@ -11,6 +11,8 @@ import { fileURLToPath } from 'url';
 import authRoutes from './routes/authRouter.js';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
+import corsOptions from './core.js';
+
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -19,8 +21,10 @@ const __dirname = path.dirname(__filename);
 // Create an instance of express
 const app = express();
 app.use(cookieParser());
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-const PORT = process.env.PORT || 3000;
+// CORS must be the first middleware
+app.use(cors(corsOptions));
+// Preflight for all routes; path must start with '/'
+app.options('/(.*)', cors(corsOptions));const PORT = process.env.PORT || 3000;
 
 
 app.use(
