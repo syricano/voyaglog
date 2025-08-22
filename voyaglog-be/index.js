@@ -61,9 +61,10 @@ app.use('/api/auth', authRoutes);
 
 // 7) SPA fallback in production (no '*splat', no '(.*)')
 if (process.env.NODE_ENV === 'production') {
-  const buildPath = path.join(__dirname, '../client/dist');
+  const buildPath = path.join(__dirname, '../voyaglog-fe/dist');
   app.use(express.static(buildPath));
-  app.get('/*', (_req, res) => res.sendFile(path.join(buildPath, 'index.html')));
+  // valid catch-all for express v5
+  app.get('/(.*)', (_req, res) => res.sendFile(path.join(buildPath, 'index.html')));
 }
 
 // 8) Errors
