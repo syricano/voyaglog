@@ -19,6 +19,7 @@ const __dirname = path.dirname(__filename);
 // Create an instance of express
 const app = express();
 app.use(cookieParser());
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 const PORT = process.env.PORT || 3000;
 
 
@@ -32,7 +33,12 @@ app.use(
   })
 );
 
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));; // Use the imported corsOptions here
+const DEV_ORIGINS = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'https://voyaglog.onrender.com',
+  process.env.CLIENT_URL, // e.g. https://your-prod-site.com
+].filter(Boolean);
 
 // Middleware
 app.use(express.json());

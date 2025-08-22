@@ -2,35 +2,32 @@ import { Link } from 'react-router'
 import voyagStyle from '../style/voyagStyle'
 import { useEffect, useState } from 'react'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
-
-
 const Blogs = () => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/posts`, {
-          method: "GET", // optional but better for clarity
-          credentials: 'include',
-        });
-        if (!response.ok) {
-          throw new Error('Failed to fetch posts')
-        }
-        const data = await response.json()
-        setPosts(data)
-      } catch (err) {
-        setError(err.message || 'Something went wrong')
-      } finally {
-        setLoading(false)
-      }
-    }
+  const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+  const API_BASE_URL = RAW_API_BASE_URL.replace(/\/+$/, '');
 
-    fetchPosts()
-  }, [])
+useEffect(() => {
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/posts`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error(`Failed to fetch posts (${res.status})`);
+      const data = await res.json();
+      setPosts(data);
+    } catch (err) {
+      setError(err.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchPosts();
+}, []);
 
   if (loading) {
     return <p>Loading posts...</p>
