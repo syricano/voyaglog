@@ -20,52 +20,68 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// If you’re behind a proxy (Render), keep this for secure cookies
 app.set('trust proxy', 1);
 
-// CORS
+// 1) CORS
 app.use(cors(corsOptions));
 
-// Body & cookies
+// 2) Body + cookies
 app.use(cookieParser());
 app.use(express.json());
 
-// Static uploads
+// 3) Static user uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Security headers (minimal)
-app.use(helmet());
-// allow cross-origin usage of images/files (frontend <> backend)
+// 4) CSP (allow frontend to call backend + allow images)
+//    NOTE: we include 'unsafe-inline' in script-src to avoid blocking any
+//    tiny inline scripts in your built index.html. Remove it if not needed.
+const API_ORIGIN =
+  process.env.PUBLIC_API_ORIGIN ||
+  process.env.VITE_API_BASE_URL ||
+  process.env.RENDER_EXTERNAL_URL ||
+  'http://localhost:3000';
+
+const defaultDirs = helmet.contentSecurityPolicy.getDefaultDirectives();
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      ...defaultDirs,
+      "script-src": ["'self'", "'unsafe-inline'"],
+      "connect-src": ["'self'", API_ORIGIN],
+      "img-src": ["'self'", "data:", API_ORIGIN],
+    },
+  })
+);
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 
-// API routes
+// 5) API routes
 app.use('/api/users', userRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/auth', authRoutes);
 
-// Serve SPA in production (no wildcard patterns that break express/router)
+// 6) Serve SPA in production
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../voyaglog-fe/dist');
   app.use(express.static(buildPath));
-  app.use((req, res, next) => {
-    if (req.method !== 'GET') return next();
-    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
-    res.sendFile(path.join(buildPath, 'index.html'));
-  });
+  // IMPORTANT: Express 5 / path-to-regexp v6 needs a NAMED wildcard:
+  app.get('/:path(*)', (_req, res) => res.sendFile(path.join(buildPath, 'index.html')));
 }
 
-// Errors
+// 7) Errors
 app.use(errorHandler);
 
-// Start server
+// 8) Start
 app.listen(PORT, () => {
   console.table({
     'Server URL': `http://localhost:${PORT}`,
     Environment: process.env.NODE_ENV || 'development',
     'Allowed Origins': process.env.CORS_ORIGIN || 'http://localhost:5173',
+    'API Origin in CSP': API_ORIGIN,
   });
 });
 
-// DB init
+// 9) DB init
 try {
   await sequelize.authenticate();
   await sequelize.sync({ alter: true });
