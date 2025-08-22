@@ -20,62 +20,32 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Trust proxy (Render/NGINX) for SameSite=None + secure cookies
 app.set('trust proxy', 1);
 
-// 1) CORS FIRST
+// CORS
 app.use(cors(corsOptions));
 
-// Handle preflight without path patterns (Express v5 friendly)
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    return cors(corsOptions)(req, res, () => res.sendStatus(204));
-  }
-  next();
-});
-
-// 2) Body + cookies
+// Body & cookies
 app.use(cookieParser());
 app.use(express.json());
 
-// 3) Static uploads
+// Static uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// 4) Security headers (single CSP)
-const defaultDirs = helmet.contentSecurityPolicy.getDefaultDirectives();
-const API_ORIGIN =
-  process.env.PUBLIC_API_ORIGIN ||
-  process.env.RENDER_EXTERNAL_URL ||
-  'http://localhost:3000';
-
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      ...defaultDirs,
-      'img-src': ["'self'", 'data:', API_ORIGIN],
-    },
-  })
-);
-
-// Allow cross-origin loads for images/files (when FE/BE are on different hosts)
+// Security headers (minimal)
+app.use(helmet());
+// allow cross-origin usage of images/files (frontend <> backend)
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 
-// 5) Health
-app.get('/', (_req, res) => {
-  res.status(200).json({ message: 'Welcome to the Travel Blog API' });
-});
-
-// 6) APIs
+// API routes
 app.use('/api/users', userRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/auth', authRoutes);
 
-// 7) SPA fallback in production (no path-to-regexp patterns)
+// Serve SPA in production (no wildcard patterns that break express/router)
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../voyaglog-fe/dist');
   app.use(express.static(buildPath));
-
-  // Serve index.html for non-API GETs
   app.use((req, res, next) => {
     if (req.method !== 'GET') return next();
     if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
@@ -83,20 +53,19 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// 8) Errors
+// Errors
 app.use(errorHandler);
 
-// 9) Start server
+// Start server
 app.listen(PORT, () => {
   console.table({
     'Server URL': `http://localhost:${PORT}`,
     Environment: process.env.NODE_ENV || 'development',
     'Allowed Origins': process.env.CORS_ORIGIN || 'http://localhost:5173',
-    'API Origin in CSP': API_ORIGIN,
   });
 });
 
-// 10) DB init
+// DB init
 try {
   await sequelize.authenticate();
   await sequelize.sync({ alter: true });
